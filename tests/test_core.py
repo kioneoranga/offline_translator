@@ -36,7 +36,7 @@ class Core(unittest.TestCase):
         self.assertFalse(is_single_word("two words"))
 
     def test_history(self):
-        with tempfile.TemporaryDirectory() as d:
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
             h = History(Path(d) / "h.db")
             h.add("en", "fr", "hello", "bonjour")
             h.add("en", "fr", "hello", "salut")          # dédoublonné
@@ -48,7 +48,7 @@ class Core(unittest.TestCase):
             self.assertEqual(h.search(), [])
 
     def test_dictionary(self):
-        with tempfile.TemporaryDirectory() as d:
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
             p = Path(d) / "dico.db"
             con = sqlite3.connect(p)
             con.execute("CREATE TABLE entry(id INTEGER PRIMARY KEY, lang, word, word_lc, pos, glosses, synonyms, translations, examples)")

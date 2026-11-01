@@ -44,6 +44,7 @@ class DownloadDialog(QDialog):
         self.bar.setRange(0, 1000)
         self.status = QLabel("Préparation…")
         self.status.setObjectName("Caption")
+        self.status.setWordWrap(True)
         lay.addWidget(self.bar)
         lay.addWidget(self.status)
         row = QHBoxLayout()

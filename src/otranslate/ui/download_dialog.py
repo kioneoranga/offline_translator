@@ -19,11 +19,8 @@ class _Worker(QThread):
         self.cancel = threading.Event()
 
     def run(self) -> None:
-        def cb(done: int, total: int, name: str) -> None:
-            pm = int(done * 1000 / total) if total else 0
-            self.progress.emit(pm, f"{name} — {done / 1e6:.0f} / {total / 1e6:.0f} Mo")
         try:
-            download_all(self.specs, cb, self.cancel)
+            download_all(self.specs, lambda pm, text: self.progress.emit(pm, text), self.cancel)
             self.done.emit(True, "")
         except DownloadCancelled:
             self.done.emit(False, "Téléchargement annulé.")
